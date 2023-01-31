@@ -183,3 +183,4 @@ console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
 /**
  * Reflection question 6
  */
+export default Salad;
