@@ -33,9 +33,9 @@ console.log('\n--- Assignment 1 ---------------------------------------')
 
 function makeOptions(inv, prop) {
   let names = Object.keys(inv)
-   let result = names
+  let result = names
     .filter(n => inv[n][prop] == true)
-    .map(n => "<option value=\""+ n + "\"> " + n + ", " + inv[n].price + " kr</option>\n")
+    .map(n => "<option value=\"" + n + "\"> " + n + ", " + inv[n].price + " kr</option>\n")
     .reduce((res, val) => res.concat(val))
   return result;
 }
@@ -47,13 +47,13 @@ class Salad {
   static instanceCounter = 0;
   constructor(salad) {
     this.id = 'salad_' + Salad.instanceCounter++;
-    
+
     if (typeof salad === 'object') {
-      this.ingredients = {...this.ingredients, ...salad.ingredients}
+      this.ingredients = { ...this.ingredients, ...salad.ingredients }
       this.uuid = uuidv4(); // use this in the constructor
     } else if (typeof salad === 'string') {
       let obj = JSON.parse(salad)
-      this.ingredients = {...this.ingredients, ...obj.ingredients}
+      this.ingredients = { ...this.ingredients, ...obj.ingredients }
       this.uuid = obj.uuid
     } else {
       this.ingredients = {}
@@ -85,13 +85,14 @@ myCaesarSalad.remove('Gurka');
 console.log(JSON.stringify(myCaesarSalad) + '\n');
 
 console.log('\n--- Assignment 3 ---------------------------------------')
-Salad.prototype.getPrice = function() {
+Salad.prototype.getPrice = function () {
   let names = Object.keys(this.ingredients)
+  console.log("Ingredients: " + names)
   return names
     .map(name => this.ingredients[name].price)
     .reduce((sum, price) => sum + price)
 }
-Salad.prototype.count = function(prop) {
+Salad.prototype.count = function (prop) {
   let names = Object.keys(this.ingredients)
   return names
     .filter(name => this.ingredients[name][prop] == true)
@@ -127,30 +128,31 @@ console.log('originalet kostar kostar ' + myCaesarSalad.getPrice() + ' kr');
 console.log('med gurka kostar den ' + objectCopy.getPrice() + ' kr');
 
 console.log('\n--- Assignment 5 ---------------------------------------')
-class GourmetSalad extends Salad{
+class GourmetSalad extends Salad {
   constructor(salad) {
     super(salad)
   }
   add(name, properties, size) {
     let currSize = 0
-    if(this.ingredients[name])
+    if (this.ingredients[name])
       currSize = this.ingredients[name].size
     let propWithSize = Object.assign({}, properties)
     propWithSize.size = currSize ? currSize + size : size
     return super.add(name, propWithSize)
   }
 }
-GourmetSalad.prototype.getPrice = function() {
+GourmetSalad.prototype.getPrice = function () {
   let names = Object.keys(this.ingredients)
   return names
     .map(name => {
-      if(this.ingredients[name].size)
+      if (this.ingredients[name].size)
         return this.ingredients[name].price * this.ingredients[name].size
       else
-       return this.ingredients[name].price} )
+        return this.ingredients[name].price
+    })
     .reduce((sum, price) => sum + price)
 }
-GourmetSalad.prototype.count = function(prop) {
+GourmetSalad.prototype.count = function (prop) {
   let names = Object.keys(this.ingredients)
   return names
     .filter(name => this.ingredients[name][prop] == true)
