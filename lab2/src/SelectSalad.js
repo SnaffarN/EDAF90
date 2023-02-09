@@ -4,13 +4,19 @@ function SelectSalad(props) {
     const { label, value, options, onChange } = props
 
     return (
-        <div class="form-group" style={{ marginBottom: 10 }}>
+        <div className="form-group" style={{ marginBottom: 10 }}>
             <label>
                 {label}
-                <select class="form-select" value={value} onChange={onChange}>
+                <select className="form-select" value={value} onChange={onChange} required>
                     <option value="">gör ditt val</option>
                     {options.map(option => <option value={option} key={option}>{option}</option>)}
                 </select>
+                <div className="valid-feedback">
+                    Looks good!
+                </div>
+                <div className="invalid-feedback">
+                    bad
+                </div>
             </label>
         </div>
     );
