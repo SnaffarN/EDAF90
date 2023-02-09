@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import SelectSalad from './SelectSalad';
-import ViewIngridient from './ViewIngredient';
 import 'bootstrap/dist/css/bootstrap.css';
 import Salad from './lab1.ES6.js';
 import {Link} from "react-router-dom";
@@ -11,7 +10,7 @@ function ComposeSalad(props) {
   let proteins = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   let extras = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
   let dressings = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
-
+  console.log(props.inventory)
   const [foundation, setFoundation] = useState('');
   const [protein, setProtein] = useState('');
   const [dressing, setDressing] = useState('');

@@ -1,27 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ComposeSaladWrapper from './ComposeSaladWrapper';
 import ViewOrder from './ViewOrder';
-import { Link, Route, Routes } from 'react-router-dom'
-import inventory from './inventory.ES6';
+import { NavLink, Link, Route, Routes } from 'react-router-dom'
+//import inventory from './inventory.ES6';
 import ViewIngridient from './ViewIngredient';
+import Salad from './lab1.ES6.js';
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState([]);
+
+  useEffect(() => {
+    if (shoppingCart.length > 0) 
+      localStorage.setItem("orders", JSON.stringify(shoppingCart));
+  }, [shoppingCart])
 
   const addSalad = (salad) => {
     setShoppingCart([
       ...shoppingCart,
       salad
-    ])
+    ]);
   }
-  /*const [inventory, setInventory] = useState({});
+
+  const [inventory, setInventory] = useState({});
   useEffect(() => {
     fetchIngredientList("foundations");
     fetchIngredientList("proteins");
     fetchIngredientList("extras");
-    fetchIngredientList("dressings")
+    fetchIngredientList("dressings");
+
+    setShoppingCart(Salad.parseSalads(localStorage.getItem("orders")));
   }, []);
 
 
@@ -33,7 +42,13 @@ function App() {
           throw new Error('${url} returned status ${response.status}');
         }
         return response.json();
-    });
+      })
+      .then(data => {
+        return {[ingredient]: data}
+      })
+      .catch(error => {
+        console.log("Error getting " + ingredient + ": ", error)
+      })
   }
 
   const fetchIngredientList = (type) => {
@@ -47,19 +62,24 @@ function App() {
       })
       .then(results => {
         return Promise.all(
-          results.map(ingredient => fetchIngredient(type, ingredient)))
-        .then(result => 
+          results.map(ingredient => fetchIngredient(type, ingredient))
+        )
+        .then(result => {
+          result = result.reduce((acc, ing) => {return {...acc, ...ing}})
           setInventory(prev => 
             ({
               ...prev, 
-              [type]: result
+              ...result
             })
           )        
-        );
+          });
       })
+      .catch((error) => {
+        console.error("Error getting ingredientlist: ", error);
+      });
   }
 
-  */
+  
 
 
   const Header = () => { 
@@ -74,14 +94,14 @@ function App() {
     return (
       <ul className="nav nav-tabs">
         <li className="nav-item">
-          <Link className="nav-link" to="/compose-salad">
+          <NavLink className="nav-link" to="/compose-salad">
              Komponera en sallad
-          </Link>
+          </NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/view-order">
+          <NavLink className="nav-link" to="/view-order">
             Din order
-          </Link>
+          </NavLink>
         </li>
         {/* more links */}
     </ul>

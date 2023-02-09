@@ -69,6 +69,14 @@ class Salad {
     return this
   }
 
+  static parseSalads(salads) {
+    if(salads) {
+      salads = JSON.parse(salads)
+      return salads.map(salad => new Salad(salad));
+    }
+    return []
+  }
+
 
 }
 
